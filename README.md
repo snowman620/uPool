@@ -3,7 +3,7 @@
 
 python对数据库的操作，大多是ORM，或者基于多进程+协程的现开现用，已经ok了。
 
-本框架把连接池、uwsgi和geven进行整合，可以一用。
+本框架把连接池、uwsgi和gevent进行整合，可以一用。
 
 #### 整合思路
 uwsgi中，启用延时加载，按需配置多进程、每个进程里不再开多线程，直接用协程，每个进程建一个数据库连接池实例。
@@ -11,7 +11,9 @@ uwsgi中，启用延时加载，按需配置多进程、每个进程里不再开
 #### 配置说明
 1. 只适用于linux环境
 
-2. 安装uwsgi，参数配置见 uPool/confs/uwsgi.ini
+2. flask + uwsgi + gevent + pymysql
+
+3. 安装uwsgi，参数配置见 uPool/confs/uwsgi.ini
 ```
 pip install uwsgi
 ```
@@ -28,11 +30,11 @@ lazy-apps=true
 gevent = 100
 ... ...
 ```
-3. 安装依赖
+4 安装依赖
 ```
 pip install -r requirements.txt
 ```
-4. 数据库在 uPool/config.py 中配
+5. 数据库在 uPool/config.py 中配
 ```
 class DevConfig(Config):
     # DB

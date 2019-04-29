@@ -3,6 +3,7 @@
 # author: wyi
 
 from flask import current_app
+import gevent
 from gevent import queue
 import pymysql
 
@@ -30,6 +31,7 @@ class ConnectionPool(object):
             return self._pool.get_nowait()
         except:
             # 重试3次
+            gevent.sleep(0.1)
             if retry > 0:
                 retry -= 1
                 return self.get_conn(retry)

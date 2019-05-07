@@ -3,9 +3,9 @@
 # author: wyi
 
 from . import user
+from flask import jsonify
 from app.utils import db_pool
 from gevent import queue
-import json
 
 
 @user.route('/list', methods=['GET'])
@@ -14,10 +14,10 @@ def user_list():
     try:
         conn = db_pool.get_conn()
         results = conn.query_all('SELECT `id`,`name` FROM `tb1`')
-        return json.dumps({'code': 1, 'msg': 'ok', 'data': [{'id': n[0], 'name': n[1]} for n in results]})
+        return jsonify({'code': 1, 'msg': 'ok', 'data': [{'id': n[0], 'name': n[1]} for n in results]})
     except queue.Empty:
         # do something
-        return json.dumps({'code': 0, 'msg': 'queue empty'})
+        return jsonify({'code': 0, 'msg': 'queue empty'})
     except Exception as e:
         # do something
-        return json.dumps({'code': 0, 'msg': 'error'})
+        return jsonify({'code': 0, 'msg': 'error'})
